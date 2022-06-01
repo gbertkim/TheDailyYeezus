@@ -1,38 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  font-family: 'EB Garamond', serif;
+  background-color: #f88b52;
+  height: 100%;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+button:hover, 
+button:focus, 
+#container:hover, 
+#container:focus {
+  cursor: pointer;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.wrapper {
+  height: 90%;
+}
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 50vh;
+  margin-top: 1rem;
+}
+#upper-lip, #lower-lip {
+  transition: transform .05s ease-in-out
+}
+#container {
+  transform-origin: center;
+  animation: rotation 5s infinite ease-in-out;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(-5deg)
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(-5deg);
   }
 }
