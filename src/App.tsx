@@ -45,6 +45,7 @@ function App():JSX.Element {
       console.log(e)
     }
   }
+
   const fetchWaveUrl = async (uuid:string, tryCounter: number) : Promise<any>  => {
     const wait = (delay:number) => {
       return new Promise((resolve) => setTimeout(resolve, delay));
@@ -81,8 +82,8 @@ function App():JSX.Element {
   const onClickPlayer = async (e:any) : Promise<void> => {
     e.preventDefault()
     if (audioPlayerRef.current) {
-      audioPlayerRef.current.pause()
-      audioPlayerRef.current.load()
+      // audioPlayerRef.current.pause()
+      // audioPlayerRef.current.load()
       audioPlayerRef.current.play()
     }
   }
