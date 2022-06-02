@@ -15,7 +15,7 @@ export const StartPage:React.FC<Props> = (props) => {
             width: '100%',
             backgroundColor: '#f88b52',
             position: 'absolute',
-            zIndex: 100,
+            zIndex: props.hideStart ? 0 : 100,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

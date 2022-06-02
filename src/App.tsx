@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { KanyeFace } from './components/KanyeFace/KanyeFace'
 import { StartPage } from './components/StartPage/StartPage'
-import {Scripture } from './components/Scripture/Scripture'
+import { Scripture } from './components/Scripture/Scripture'
 import './App.css'
 
 function App():JSX.Element {
@@ -11,35 +11,6 @@ function App():JSX.Element {
   const [biblePassage, setBiblePassage] = useState<never[]>([])
   const [mouthHeight, setMouthHeight] = useState<number>(0)
   const audioPlayerRef = useRef<HTMLAudioElement>(null)
-
-  let context = new AudioContext()
-  let analyserNode = new AnalyserNode(context, { fftSize: 32 })
-
-  useEffect(() => {
-    const animateKanye = () :void => {
-      requestAnimationFrame(animateKanye)
-      if(audioPlayerRef.current) {
-        audioPlayerRef.current.onended = () => {
-          setMouthHeight(0)
-        }
-      }
-      // const bufferLength = analyserNode.frequencyBinCount
-      const bufferLength:number = 1
-      const dataArray:Uint8Array = new Uint8Array(bufferLength)
-      analyserNode.getByteFrequencyData(dataArray)
-      dataArray.forEach((item, index) => {
-        let volumePercentage:number = ((item/255 -.8)/.5) * 100
-        setMouthHeight(Math.max(0, volumePercentage/15))
-      })
-    }
-    if (audioPlayerRef.current) {
-      const source:MediaElementAudioSourceNode = context.createMediaElementSource(audioPlayerRef.current)
-      source
-      .connect(analyserNode)
-      .connect(context.destination) 
-    }
-    animateKanye()
-  }, [])
 
   const fetchAndLoadAudio:() => Promise<any> = async () => {
     try {
@@ -66,7 +37,7 @@ function App():JSX.Element {
         },
         body: JSON.stringify({voice: 'kanye-west-rap', pace: 1, speech: verse})
       }
-      const response = await fetch('https://api.uberduck.ai/speak', options)
+      const response = await fetch('https://rocky-plateau-32639.herokuapp.com/https://api.uberduck.ai/speak', options)
       const resJson = await response.json()
       const uuid = resJson.uuid
       return Promise.resolve(uuid)
@@ -81,7 +52,7 @@ function App():JSX.Element {
     try {
       let numberOfTries = tryCounter
       const options = {method: 'GET', headers: {Accept: 'application/json'}};
-      const response = await fetch(`https://api.uberduck.ai/speak-status?uuid=${uuid}`, options)
+      const response = await fetch(`https://rocky-plateau-32639.herokuapp.com/https://api.uberduck.ai/speak-status?uuid=${uuid}`, options)
       const resJson = await response.json()
       if (numberOfTries === 10) {
         setLoading(false)
@@ -89,7 +60,7 @@ function App():JSX.Element {
       } 
       if (resJson.path !== null) {
         console.log(resJson.path)
-        setVoice(resJson.path)
+        setVoice(`https://rocky-plateau-32639.herokuapp.com/${resJson.path}`)
         setLoading(false)
         setHideStart(true)
         return Promise.resolve(resJson.path.toString())
@@ -101,15 +72,15 @@ function App():JSX.Element {
     }
   }
 
-  const setupContext = async () : Promise<void> => {
+  const setupContext = async (context:any) : Promise<void> => {
     if (context.state === 'suspended') {
       await context.resume()
     }
   }
 
-  const onClickPlayer = async () : Promise<void> => {
+  const onClickPlayer = async (e:any) : Promise<void> => {
+    e.preventDefault()
     if (audioPlayerRef.current) {
-      setupContext()
       audioPlayerRef.current.pause()
       audioPlayerRef.current.load()
       audioPlayerRef.current.play()
@@ -117,15 +88,53 @@ function App():JSX.Element {
   }
 
   const onClickStart = async (e:any) : Promise<void> => {
+    let context = new AudioContext()
+    let analyserNode = new AnalyserNode(context, { fftSize: 32 })
+    const animateKanye = () :void => {
+      requestAnimationFrame(animateKanye)
+      if(audioPlayerRef.current) {
+        audioPlayerRef.current.onended = () => {
+          setMouthHeight(0)
+        }
+      }
+      // const bufferLength = analyserNode.frequencyBinCount
+      const bufferLength:number = 1
+      const dataArray:Uint8Array = new Uint8Array(bufferLength)
+      analyserNode.getByteFrequencyData(dataArray)
+      dataArray.forEach((item, index) => {
+        let volumePercentage:number = ((item/255 -.8)/.5) * 100
+        setMouthHeight(Math.max(0, volumePercentage/15))
+      })
+    }
+    if (audioPlayerRef.current) {
+      const source:MediaElementAudioSourceNode = context.createMediaElementSource(audioPlayerRef.current)
+      source
+      .connect(analyserNode)
+      .connect(context.destination) 
+    }
+    animateKanye()
+    e.preventDefault()
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause()
     }
-    e.preventDefault()
     setLoading(true)
     setHideStart(false)
     await fetchAndLoadAudio()
     if (audioPlayerRef.current) {
-      setupContext()
+      setupContext(context)
+      audioPlayerRef.current.load()
+    }
+  }
+
+  const newVerse = async (e:any) : Promise<void> => {
+    e.preventDefault()
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.pause()
+    }
+    setLoading(true)
+    setHideStart(false)
+    await fetchAndLoadAudio()
+    if (audioPlayerRef.current) {
       audioPlayerRef.current.load()
     }
   }
@@ -139,15 +148,8 @@ function App():JSX.Element {
         <p style={{marginTop: '.5rem'}}>"Click Yeezus"</p>
         <KanyeFace mouthHeight={mouthHeight} onClickPlayer={onClickPlayer}/>
         <Scripture biblePassage={biblePassage}/>
-        <button 
-          style={{
-            backgroundColor: 'transparent', 
-            border: 'none', color: 'white', 
-            textDecoration: 'underline', 
-            textTransform: 'uppercase',
-            marginTop: '1rem'
-          }} 
-          onClick={onClickStart}
+        <button style={{marginTop: '1rem', color: 'white', textDecoration: 'underline', textTransform: 'uppercase',}} 
+          onClick={newVerse}
         >
           new verse
         </button>

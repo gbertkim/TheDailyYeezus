@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './KanyeFace.css'
 interface Props {
   mouthHeight: number,
-  onClickPlayer: React.MouseEventHandler<SVGSVGElement>
+  onClickPlayer: any
 }
 
 export const KanyeFace: React.FC<Props> = (props) => {
@@ -17,8 +17,8 @@ export const KanyeFace: React.FC<Props> = (props) => {
     return () => clearInterval(BLINK_TIMER)
   }, [])
   return (
-    <div id='container' tabIndex={1}>
-          <svg onClick={props.onClickPlayer} width="232" height="394" viewBox="0 0 232 394" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <button tabIndex={1} onClick={props.onClickPlayer} style={{zIndex: '1'}} id='container' >
+          <svg width="232" height="394" viewBox="0 0 232 394" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="232" height="394" />
           <g id="Frame 1">
           <g id="Vector 2">
@@ -44,7 +44,7 @@ export const KanyeFace: React.FC<Props> = (props) => {
           </g>
           </g>
           </svg>
-      </div>
+      </button>
   )
 }
 

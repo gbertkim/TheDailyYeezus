@@ -16,10 +16,16 @@
   align-items: center;
   justify-content: center;
 }
+button {
+  background-color: transparent; 
+  border: none;
+}
 button:hover, 
 button:focus, 
 #container:hover, 
-#container:focus {
+#container:focus,
+svg:hover,
+svg:focus {
   cursor: pointer;
 }
 .wrapper {
