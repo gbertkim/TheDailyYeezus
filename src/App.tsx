@@ -185,7 +185,7 @@ function App():JSX.Element {
         <p style={{marginTop: '.5rem'}}>"Click Yeezus"</p>
         <KanyeFace blinkStatus={blinkStatus} mouthHeight={mouthHeight} onClickPlayer={onClickPlayer}/>
         <Scripture biblePassage={biblePassage}/>
-        <button style={{marginTop: '1rem', color: 'white', textDecoration: 'underline', textTransform: 'uppercase', fontSize: '1rem', fontWeight: 'bold'}} 
+        <button id='newVerse' style={{marginTop: '1rem', color: 'white', textDecoration: 'underline', textTransform: 'uppercase', fontSize: '1rem', fontWeight: 'bold'}} 
           onClick={onClickNewVerse}
         >
           new verse

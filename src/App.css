@@ -36,6 +36,10 @@ svg:focus {
 .wrapper {
   height: 90%;
 }
+svg:hover {
+  transform: scale(1.05);
+  transition: transform .05s ease-in-out
+}
 #container {
   display: flex;
   flex-direction: column;
@@ -43,6 +47,10 @@ svg:focus {
   justify-content: center;
   max-height: 35vh;
   margin-top: 1rem;
+}
+#newVerse:hover {
+  transform: scale(1.05);
+  transition: transform .05s ease-in-out
 }
 #upper-lip, #lower-lip {
   transition: transform .05s ease-in-out
