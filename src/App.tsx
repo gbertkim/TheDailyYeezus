@@ -10,22 +10,44 @@ function App():JSX.Element {
   const [hideStart, setHideStart] = useState<boolean>(false)
   const [biblePassage, setBiblePassage] = useState<never[]>([])
   const [mouthHeight, setMouthHeight] = useState<number>(0)
+  const [blinkStatus, setBlinkStatus] = useState<string>('closed')
+  const [error, setError] = useState<string>('')
   const audioPlayerRef = useRef<HTMLAudioElement>(null)
+  
+  useEffect(() => {
+    if(error) {
+      throw new Error(error);
+    }
+  },[error])
 
-  const fetchAndLoadAudio:() => Promise<any> = async () => {
+
+  ///////////////FETCH FUNCTIONS///////////////////
+  const fetchAndLoadAudio= async () : Promise<any> => {
     try {
-      const fetchVerse = await fetch('https://labs.bible.org/api/?passage=random&type=json')
-      const bibleJson = await fetchVerse.json()
-      setBiblePassage(bibleJson)
-      const verse:string = bibleJson[0].text
+      const verse = await fetchVerse()
       const uuid = await fetchVoiceUUID(verse)
       const waveUrl = await fetchWaveUrl(uuid, 0)
       return Promise.resolve(waveUrl)
-    } catch (e) {
-      console.log(e)
+    } catch (e:any) {
+      console.log(e.message)
+      setError(e.message)
     }
   }
-
+  
+  const fetchVerse = async () : Promise<any> => {
+    try {
+      const fetchBible = await fetch('https://labs.bible.org/api/?passage=random&type=json')
+      const bibleJson = await fetchBible.json()
+      setBiblePassage(bibleJson)
+      let verse:string = bibleJson[0].text
+      verse = verse.replace(/<b>/g, "")
+      verse = verse.replace(/<\/b>/g, "")
+      return (Promise.resolve(verse))
+    } catch (e: any) {
+      console.log(e)
+      setError('Fetch Failed at Bible API')
+    }
+  }
   const fetchVoiceUUID = async (verse: string) : Promise<any> => {
     try {
       const options = {
@@ -41,11 +63,11 @@ function App():JSX.Element {
       const resJson = await response.json()
       const uuid = resJson.uuid
       return Promise.resolve(uuid)
-    } catch (e) {
+    } catch (e:any) {
       console.log(e)
+      setError('Fetch Failed at Uberduck Speak')
     }
   }
-
   const fetchWaveUrl = async (uuid:string, tryCounter: number) : Promise<any>  => {
     const wait = (delay:number) => {
       return new Promise((resolve) => setTimeout(resolve, delay));
@@ -57,10 +79,9 @@ function App():JSX.Element {
       const resJson = await response.json()
       if (numberOfTries === 10) {
         setLoading(false)
-        return Promise.reject(Error('Too Many Tries'))
+        return Promise.reject(Error('Too Many Fetch Retries'))
       } 
       if (resJson.path !== null) {
-        console.log(resJson.path)
         setVoice(`https://rocky-plateau-32639.herokuapp.com/${resJson.path}`)
         setLoading(false)
         setHideStart(true)
@@ -68,29 +89,30 @@ function App():JSX.Element {
       } else {
         return wait(3000).then(() => fetchWaveUrl(uuid, numberOfTries + 1))
       }
-    } catch (e) {
+    } catch (e:any) {
       console.log(e)
+      setError('Fetch Failed at Uberduck UUID')
     }
   }
 
-  const setupContext = async (context:any) : Promise<void> => {
+  ///////////////CONTEXT, ANALYSER, KANYE ANIMATION///////////////////
+  const resumeContext = async (context:any) : Promise<void> => {
     if (context.state === 'suspended') {
       await context.resume()
     }
   }
 
-  const onClickPlayer = async (e:any) : Promise<void> => {
-    e.preventDefault()
-    if (audioPlayerRef.current) {
-      // audioPlayerRef.current.pause()
-      // audioPlayerRef.current.load()
-      audioPlayerRef.current.play()
-    }
-  }
 
-  const onClickStart = async (e:any) : Promise<void> => {
+
+  const setupContextAndAnalyser = () => {
     let context = new AudioContext()
     let analyserNode = new AnalyserNode(context, { fftSize: 32 })
+    if (audioPlayerRef.current) {
+      const source:MediaElementAudioSourceNode = context.createMediaElementSource(audioPlayerRef.current)
+      source
+      .connect(analyserNode)
+      .connect(context.destination) 
+    }
     const animateKanye = () :void => {
       requestAnimationFrame(animateKanye)
       if(audioPlayerRef.current) {
@@ -107,14 +129,23 @@ function App():JSX.Element {
         setMouthHeight(Math.max(0, volumePercentage/15))
       })
     }
-    if (audioPlayerRef.current) {
-      const source:MediaElementAudioSourceNode = context.createMediaElementSource(audioPlayerRef.current)
-      source
-      .connect(analyserNode)
-      .connect(context.destination) 
-    }
     animateKanye()
+    return context
+  }
+
+  ///////////////ON CLICK FUNCTIONS///////////////////
+  const onClickPlayer = async (e:any) : Promise<void> => {
     e.preventDefault()
+    setTimeout(()=> {setBlinkStatus('mid')}, 250)
+    setTimeout(()=> {setBlinkStatus('open')}, 500)
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.play()
+    }
+  }
+
+  const onClickStart = async (e:any) : Promise<void> => {
+    e.preventDefault()
+    let context = setupContextAndAnalyser()
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause()
     }
@@ -122,12 +153,12 @@ function App():JSX.Element {
     setHideStart(false)
     await fetchAndLoadAudio()
     if (audioPlayerRef.current) {
-      setupContext(context)
+      resumeContext(context)
       audioPlayerRef.current.load()
     }
   }
 
-  const newVerse = async (e:any) : Promise<void> => {
+  const onClickNewVerse = async (e:any) : Promise<void> => {
     e.preventDefault()
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause()
@@ -138,19 +169,24 @@ function App():JSX.Element {
     if (audioPlayerRef.current) {
       audioPlayerRef.current.load()
     }
+  }
+  
+  ///////////////ON ENDED AUDIO PLAYER///////////////////
+  const audioEnded = () => {
+    setBlinkStatus('closed')
   }
 
   return (
     <div className="App">
       <h1 style={{textDecoration: 'underline'}}>THE DAILY YEEZUS</h1>
       <StartPage onClickStart={onClickStart} loading={loading} hideStart={hideStart}/>
-      <audio src={voice} ref={audioPlayerRef} crossOrigin='anonymous'></audio>
+      <audio src={voice} ref={audioPlayerRef} crossOrigin='anonymous' onEnded={audioEnded}></audio>
       <div className='wrapper' style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <p style={{marginTop: '.5rem'}}>"Click Yeezus"</p>
-        <KanyeFace mouthHeight={mouthHeight} onClickPlayer={onClickPlayer}/>
+        <KanyeFace blinkStatus={blinkStatus} mouthHeight={mouthHeight} onClickPlayer={onClickPlayer}/>
         <Scripture biblePassage={biblePassage}/>
-        <button style={{marginTop: '1rem', color: 'white', textDecoration: 'underline', textTransform: 'uppercase',}} 
-          onClick={newVerse}
+        <button style={{marginTop: '1rem', color: 'white', textDecoration: 'underline', textTransform: 'uppercase', fontSize: '1rem', fontWeight: 'bold'}} 
+          onClick={onClickNewVerse}
         >
           new verse
         </button>

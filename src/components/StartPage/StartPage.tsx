@@ -25,7 +25,10 @@ export const StartPage:React.FC<Props> = (props) => {
         <h1 style={{color: 'black', fontSize: '1.5rem'}}>THE DAILY YEEZUS</h1>
         {!props.loading ? 
             <button id='start' onClick={props.onClickStart} style={{ backgroundColor: 'transparent', border: 'none', fontSize: '2rem' }}>START</button>
-            : <div>loading may take a moment...</div>}
+            : <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <p>creating audio file...</p>
+                <div className="lds-heart"><div></div></div>
+              </div>}
     </div>
   )
 }

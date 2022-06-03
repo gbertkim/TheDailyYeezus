@@ -9,7 +9,7 @@ export const Scripture:React.FC<Props> = (props) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '90%',
+        width: '85%',
         maxWidth: '600px',
         paddingTop: '1rem'
     }

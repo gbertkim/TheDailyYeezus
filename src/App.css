@@ -5,16 +5,21 @@
   margin: 0;
   padding: 0;
 }
+html, body, #root {
+  height: 100%;
+  min-height: 100%;
+}
+
 .App {
   font-family: 'EB Garamond', serif;
   background-color: #f88b52;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 }
 button {
   background-color: transparent; 
@@ -36,7 +41,7 @@ svg:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-height: 50vh;
+  max-height: 35vh;
   margin-top: 1rem;
 }
 #upper-lip, #lower-lip {
