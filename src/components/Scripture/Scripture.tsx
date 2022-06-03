@@ -16,7 +16,7 @@ export const Scripture:React.FC<Props> = (props) => {
     const book = props.biblePassage[0]?.bookname || null
     const chapterNum = props.biblePassage[0]?.chapter || null
     const verseNum = props.biblePassage[0]?.verse || null
-    const passage = props.biblePassage[0]?.text || null
+    const passage = props.biblePassage[0]?.text.replace(/<b>/g, "").replace(/<\/b>/g, "") || null
     return (
         <div className='Scripture' style={divStyle}>
             <h3>{book} {chapterNum}:{verseNum}</h3>
