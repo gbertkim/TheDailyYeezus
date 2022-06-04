@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { KanyeFace } from './components/KanyeFace/KanyeFace'
 import { StartPage } from './components/StartPage/StartPage'
 import { Scripture } from './components/Scripture/Scripture'
+import { About } from './components/About/About'
 import './App.css'
 
 function App():JSX.Element {
@@ -12,6 +13,7 @@ function App():JSX.Element {
   const [mouthHeight, setMouthHeight] = useState<number>(0)
   const [blinkStatus, setBlinkStatus] = useState<string>('closed')
   const [error, setError] = useState<string>('')
+  const [aboutToggle, setAboutToggle] = useState<boolean>(false)
   const audioPlayerRef = useRef<HTMLAudioElement>(null)
   
   useEffect(() => {
@@ -170,6 +172,12 @@ function App():JSX.Element {
       audioPlayerRef.current.load()
     }
   }
+
+  const onAboutClick = (e:any) : void => {
+    e.preventDefault()
+    console.log('hello')
+    setAboutToggle(!aboutToggle)
+  }
   
   ///////////////ON ENDED AUDIO PLAYER///////////////////
   const audioEnded = () => {
@@ -191,6 +199,8 @@ function App():JSX.Element {
           new verse
         </button>
       </div>
+      <button id='aboutButton' onClick={onAboutClick} style={{position: 'absolute', top: '.5rem', right: '1.5rem', fontSize: '1.5rem', zIndex: '101'}}>About</button>
+      <About aboutToggle={aboutToggle} aboutToggleHandler={onAboutClick}/>
     </div>
   ); 
 }

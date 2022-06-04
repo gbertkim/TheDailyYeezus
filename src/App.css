@@ -38,15 +38,17 @@ svg:focus {
 }
 svg:hover {
   transform: scale(1.05);
-  transition: transform .05s ease-in-out
+  transition: transform .05s ease-in-out;
 }
-#container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-height: 35vh;
-  margin-top: 1rem;
+#aboutButton, 
+#closeButton {
+  color: white;
+}
+#aboutButton:hover, 
+#aboutButton:focus,
+#closeButton:hover,
+#closeButton:focus {
+  color: lightgrey;
 }
 #newVerse:hover {
   transform: scale(1.05);
@@ -56,6 +58,12 @@ svg:hover {
   transition: transform .05s ease-in-out
 }
 #container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 35vh;
+  margin-top: 1rem;
   transform-origin: center;
   animation: rotation 5s infinite ease-in-out;
 }

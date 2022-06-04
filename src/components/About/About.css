@@ -1,0 +1,21 @@
+.About {
+    color: white;
+}
+.aboutP {
+    width: 80%;
+    max-width: 600px;
+    font-size: 1.5rem;
+}
+a {
+    color: salmon;
+}
+a:hover, a:focus {
+    color: lightgrey;
+    cursor: pointer;
+}
+a:visited {
+    color: purple;
+}
+a:visited:hover, a:visited:focus {
+    color: lightgrey;
+}
