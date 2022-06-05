@@ -8,17 +8,34 @@
 html, body, #root {
   height: 100%;
   min-height: 100%;
+  width: 100%;
+  min-width: 100%;
 }
 
-.App {
-  font-family: 'EB Garamond', serif;
+#root,
+.App,
+#container,
+.wrapper {
   background-color: #f88b52;
-  min-height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+}
+
+.App {
+  position: relative;
+  font-family: 'EB Garamond', serif;
+  min-height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+.wrapper {
+  padding-top: 5rem;
+  width: 100%;
+  min-height: 100%;
+  max-width: 800px;
+  position: relative;
   overflow: auto;
 }
 button {
@@ -32,9 +49,6 @@ button:focus,
 svg:hover,
 svg:focus {
   cursor: pointer;
-}
-.wrapper {
-  height: 90%;
 }
 svg:hover {
   transform: scale(1.05);
@@ -51,17 +65,15 @@ svg:hover {
   color: lightgrey;
 }
 #newVerse:hover {
-  transform: scale(1.05);
-  transition: transform .05s ease-in-out
+  background-color: lightgrey;
+}
+.spacer {
+  padding: 1rem;
 }
 #upper-lip, #lower-lip {
   transition: transform .05s ease-in-out
 }
 #container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   max-height: 35vh;
   margin-top: 1rem;
   transform-origin: center;

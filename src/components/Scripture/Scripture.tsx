@@ -9,9 +9,10 @@ export const Scripture:React.FC<Props> = (props) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '85%',
-        maxWidth: '600px',
-        paddingTop: '1rem'
+        maxWidth: '400px',
+        paddingTop: '1rem',
+        paddingLeft: '2rem',
+        paddingRight: '2rem'
     }
     const book = props.biblePassage[0]?.bookname || null
     const chapterNum = props.biblePassage[0]?.chapter || null

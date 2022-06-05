@@ -175,7 +175,6 @@ function App():JSX.Element {
 
   const onAboutClick = (e:any) : void => {
     e.preventDefault()
-    console.log('hello')
     setAboutToggle(!aboutToggle)
   }
   
@@ -186,20 +185,42 @@ function App():JSX.Element {
 
   return (
     <div className="App">
-      <h1 style={{textDecoration: 'underline'}}>THE DAILY YEEZUS</h1>
       <StartPage onClickStart={onClickStart} loading={loading} hideStart={hideStart}/>
-      <audio src={voice} ref={audioPlayerRef} crossOrigin='anonymous' onEnded={audioEnded}></audio>
-      <div className='wrapper' style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <p style={{marginTop: '.5rem'}}>"Click Yeezus"</p>
+      <div className='wrapper'>
+        <h1 style={{fontSize: '1.75rem'}}>THE DAILY YEEZUS</h1>
+        <audio src={voice} ref={audioPlayerRef} crossOrigin='anonymous' onEnded={audioEnded}></audio>
+        <p style={{marginTop: '.5rem', fontSize: '1.2rem'}}>"Click Yeezus"</p>
         <KanyeFace blinkStatus={blinkStatus} mouthHeight={mouthHeight} onClickPlayer={onClickPlayer}/>
         <Scripture biblePassage={biblePassage}/>
-        <button id='newVerse' style={{marginTop: '1rem', color: 'white', textDecoration: 'underline', textTransform: 'uppercase', fontSize: '1rem', fontWeight: 'bold'}} 
+        <button 
+          id='newVerse' 
+          style={{
+            marginTop: '1rem', 
+            color: 'white', 
+            textTransform: 'uppercase', 
+            fontSize: '1rem', 
+            fontWeight: 'bold',
+            border: '1px solid white',
+            padding: '.5rem',
+          }} 
           onClick={onClickNewVerse}
         >
           new verse
         </button>
+        <button 
+          id='aboutButton' 
+          onClick={onAboutClick} 
+          style={{
+            position: 'absolute', 
+            top: '2rem', 
+            right: '2rem', 
+            fontSize: '1rem',
+            zIndex: '101',
+          }}>
+          about
+        </button>
+        <div className='spacer'></div>
       </div>
-      <button id='aboutButton' onClick={onAboutClick} style={{position: 'absolute', top: '.5rem', right: '1.5rem', fontSize: '1.5rem', zIndex: '101'}}>About</button>
       <About aboutToggle={aboutToggle} aboutToggleHandler={onAboutClick}/>
     </div>
   ); 

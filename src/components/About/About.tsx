@@ -15,6 +15,7 @@ export const About:React.FC<Props> = (props) => {
         style={{
             zIndex: '101',
             backgroundColor: 'black',
+            height: '100%',
             minHeight: '100%',
             width: '100%',
             position: 'absolute',
@@ -26,29 +27,43 @@ export const About:React.FC<Props> = (props) => {
             alignItems: 'center',
         }}
     >
-        <button
-            id='closeButton'
+        <div className='aboutWrapper' 
             style={{
-                position: 'absolute',
-                top: '1rem',
-                right: '2rem',
-                fontSize: '2rem',
+                zIndex: '102',
+                width: '100%',
+                maxWidth: '800px',
+                minHeight: '100%',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
             }}
-            onClick={props.aboutToggleHandler}
         >
-            X
-        </button>
-        <p className='aboutP'>
-            Hello World, I built this app as a portfolio builder and to learn TypeScript.
-            I am a big fan of Yeezus and thought this app would be funny.
-            I used a proxy because I was having CORS issues with uberduck.api.
-            Check out my <a href='https://gbertkim.github.io/portfolio/' target="_blank" rel="noopener noreferrer">portfolio</a> and reach 
-            out if you're looking to hire a front-end coder!
-        </p>
-        <br></br>
-        <p className='aboutP'>
-            If you'd like to support, <a href='https://ko-fi.com/gbertkim' target="_blank" rel="noopener noreferrer">I love coffee!</a>
-        </p>
+            <button
+                id='closeButton'
+                style={{
+                    position: 'absolute',
+                    top: '1.5rem',
+                    right: '2rem',
+                    fontSize: '1.5rem',
+                }}
+                onClick={props.aboutToggleHandler}
+            >
+                X
+            </button>
+            <p className='aboutP'>
+                Hello World, I built this app as a portfolio builder and to learn TypeScript.
+                I am a big fan of Yeezus and thought this app would be funny.
+                I used a proxy because I was having CORS issues with uberduck api.
+                Check out my <a href='https://gbertkim.github.io/portfolio/' target="_blank" rel="noopener noreferrer">portfolio</a> and reach 
+                out if you're looking to hire a front-end coder!
+            </p>
+            <br></br>
+            <p className='aboutP'>
+                If you'd like to support, <a href='https://ko-fi.com/gbertkim' target="_blank" rel="noopener noreferrer">I love coffee!</a>
+            </p>
+        </div>
     </div>
   )
 }
