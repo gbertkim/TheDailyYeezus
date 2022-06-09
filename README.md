@@ -1,46 +1,21 @@
-# Getting Started with Create React App
+# The Daily Yeezus
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live Code: [The Daily Yeezus](https://yeezus-gbertkim.vercel.app/).
 
-## Available Scripts
+## Reason
 
-In the project directory, you can run:
+I am a fan of Kanye and thought this project would be a fun way to learn some TypeScript!
 
-### `npm start`
+### How it works:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+We fetch the Lapd Api and get a random bible verse. Then we use the bible verse and convert it through the Uberduck API. I drew the Kanye through on Figma, exported the SVG, and animated it through the data from Web Audio Api. The mouth is handled by the volume of the audio and the eyebrow animation is triggered by a volume threshold by the audio volume. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Difficulties:
 
-### `npm test`
+UX - There is a long loading period while the audio is being created, which is not a pleasant user experience. I plan to build a backend server to speed things up. There is a slight delay before Kanye actually starts speaking after he is clicked on mobile. The audio element on mobile has some built in delay when you load, pause, and play. To give the user response that their click was processed, I had Kanye start with his eyes closed and open them on the click. That way even if their is a sligh delay for when the audio starts, it will let the user know that the click was processed. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Kanye App start](https://github.com/gbertkim/TheDailyYeezus/main/kanye-1.png?raw=true)
 
-### `npm run build`
+![Kanye App audio loaded](https://github.com/gbertkim/TheDailyYeezus/main/kanye-2.png?raw=true)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Kanye App audio playing](https://github.com/gbertkim/TheDailyYeezus/main/kanye-3.png?raw=true)
