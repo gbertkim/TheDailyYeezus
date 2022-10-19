@@ -53,7 +53,7 @@ export const About:React.FC<Props> = (props) => {
                 X
             </button>
             <p className='aboutP'>
-                Hello World, I built this app as a portfolio builder and to learn TypeScript.
+                Hello World, I built this app as a portfolio builder.
                 I am a big fan of Yeezus and thought this app would be funny.
                 I used a proxy because I was having CORS issues with uberduck api.
                 Check out my <a href='https://gbertkim.github.io/portfolio/' target="_blank" rel="noopener noreferrer">portfolio</a> and reach 
