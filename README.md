@@ -4,7 +4,7 @@ Live Code: [The Daily Yeezus](https://yeezus-gbertkim.vercel.app/).
 
 ## Reason
 
-I am a fan of Kanye and thought this project would be fun.
+I find Kanye to be funny and thought this project would be fun.
 
 ### How it works:
 
